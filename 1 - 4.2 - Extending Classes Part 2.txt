@@ -1,0 +1,231 @@
+(Transcribed by TurboScribe. Go Unlimited to remove this message.)
+
+Welcome to ITPro.TV. I'm your host, Don Vector. Coming at you live from San Francisco, California. You're watching ITPro.TV. Hello, everyone, and welcome back to another exciting episode of ITPro.TV. I am your host, Vaughn Smith, and today we are doing part two of extending classes in object-orientated Python.
+
+So if you missed the first part of this conversation, make sure you go back and check that out. But here to extend this conversation with us is Mr. Justin Dennison. Hello.
+
+Hello, Vaughn. How are you today? I'm doing great. I'm excited to hear more about these classes.
+
+I hear we're going to be mixing it up a little bit. Yeah, yeah, Vaughn. It's interesting because when we left off last time, we actually talked about the dangers of multiple inheritance.
+
+We had overriding, don't know what methods are actually being called. However, there is a valid use case for multiple inheritance, and we'll talk more about who considers it valid or not later, but it's the mix-in pattern where I can take individual kind of pieces and just mix it up, right? I like to think of it as in a shaker or something like that. But I think to see how valid this is, let's go ahead and jump in and see where this takes us.
+
+So here I am. I already have my terminal open. I'm in my project.
+
+If you haven't checked out part one, definitely check that out because we started here, we made this project, but now we're going to continue using it. And I only have a single file, that's books.py, and over in my Atom text editor, I have all of this code. But for now, I'm going to comment that out.
+
+So there we go. And I'm going to come down here, and I'm going to stay with the books example, right? So let's talk about a book. Well, a book has a title and an author, but a book is also readable, writable, and, well, there's a third one that we would like to.
+
+Now, we could just write a book and have it a read-write method, but there's other types of things that are readable and writable, like text files or possibly other documents that are specific. So we may reuse this code, so let's pull that out into its own separate class in order to, well, add that functionality back to the book and keep our code dry. So let's see.
+
+We have our book class here, and we need that dunder and knit method, and it has a title and an author. Now, in the previous episode, I already had a book class. I made some changes to it, so we're just going to start fresh and take a fresh look at this.
+
+And what is in the book class? Well, all we need to do is set the title to title and the author to author. Now, a book is readable and writable. I could come down here and add a write class, or excuse me, a write method, and that would write the book out, write a print, or maybe I'm updating the book.
+
+Maybe you're writing the book, and you want to be able to modify what's inside the book. So, boom, I'm going to take that out and instead make a second class called readable. Not readable.
+
+Instead, call it writable. We'll come back to that readable thing later. And then what do I want to do? Well, I'm going to write a dunder and knit method for that as well.
+
+No, not a dunder and knit method, a write method. Got some crazies going on here, Vaughn. And that is going to take, well, what is it going to do? It's going to open the file, and I'm going to assume that there's a file path for the book.
+
+And this is a digital book, so the book has to be stored somewhere. So that file path portion is going to be available to me, and that's just going to be a write. And I forgot the as F. Now, this is a context manager.
+
+This will make sure that the file closes when we're done, just as a quick reminder. If you haven't used these a lot, they're very handy because I don't have to worry about accidentally keeping the file open once my programme's doing other things. And then all it's going to do is, well, it needs some data, right, information.
+
+If I'm writing to the book, I need text. So this is going to take data, and it is going to write the data out. Okay, so we have this method now.
+
+All right, well, that looks good, but where is this self.filepath? There's no dunder and knit in this writable. Well, the book, it actually needs, where is it going to be stored? So I'm going to add to the original book class and give it a path, but now the book needs to be writable. How am I going to make that writable? Well, I'm just going to say it inherits from the writable class.
+
+And now having this, I should be able to write to the book. So let's test that out below. I'm going to say book equals book, and the title is something, and the author is someone.
+
+And, well, I need to give it a filepath because notice, even though these are disjoint, I've assumed that whatever's inheriting from this has a filepath property, and that's important to note. This is one of those gotcha moments that you have to be careful about. So I have to give it a filepath, and I'm just going to say that it's within this same folder, and it's going to be book.txt. All right, now I have that book.
+
+Now what do I want to do? I want to say book.write. Here's the first line. All right, so I have that written book. It looks good.
+
+We're all good to go. And if we come back in Python 3, books.py, and I write, uh-oh, book attribute, book object has no attribute filepath. Well, this is a, I whoopsie-daisied, and that's okay.
+
+Notice I passed in the filepath, but I didn't actually set it as a property on the book instance. So a common mistake. You'll do it.
+
+I still do it. No worries. It's important to realise, though, attribute error typically means you haven't set it to the object property.
+
+So keep that in mind. Let's see if it works now in Python 3. And nope, not Python 3. Forgot to type books. And it looks, well, it didn't look like it did anything.
+
+Well, let's see here, and notice over in here, I actually have a book.txt. Let's see what's in that book.txt. Here's the first line. So I've now made a writable book. I've written two classes.
+
+This class does not have an init method. It just has a single write method that is inherited by book because I want the book to be writable. A book is writable.
+
+So that's important to know. So, well, this doesn't look new to us, does it? I was going to say that this is, right now, this is just an example of single inheritance. It's just one parent, one child, so that's all we've got right now.
+
+Exactly. So this is single inheritance. There's nothing new at this point.
+
+But now comes the power. Not only is a book readable, or excuse me, writable, it should also be readable. So how do I make this readable? Well, I'm going to add a class called readable, and that is going to have a read method.
+
+And that's going to be with open self.filepath r as f, and then return, wait a minute, wait a minute. I'm just going to print it. This is not a robust class definition.
+
+This is just for example, so do keep that in mind. I'm going to read whatever's in the book and just print it to the screen. So now I have this readable class.
+
+So this is an extra piece, right? A book is readable and it is writable. So how do I do that? Well, it is readable and writable now. I've inherited both the write and the read methods, but I haven't had to re-copy and paste or anything like that.
+
+I've just added properties or behaviours through this kind of putting them in a blender and hitting puree. We started to extend. Exactly.
+
+And we're mixing it up. We're mixing it up. We're adding some mix-ins.
+
+So I've got a little bit of readable, a little bit of writable in here, and now the book is both readable and writable. And let's actually see if it works. Now you'll notice this is f.read. That's not calling this read method, but instead the read method on the file object when you read in a file.
+
+So let's take a look here. If I write and then I say book.read, and let's write another line, book.write, some more things. That is not how you spell more.
+
+And then book.read. Notice this is, I'm writing to the book, I'm reading to the book, I'm writing to the book, I'm reading to the book. This is a nice description. Let's see if it works, though.
+
+That's the test. So here's the first line and some more things. It looks like it worked, right? So we're good to go.
+
+We have the read and the write portions added to our book. But now I'm building an inventory system. I need to be able to send this out across the web, put it in a database.
+
+I'm maybe using a NoSQL database, and it would be nice if I could make it a JSON format, which is JavaScript Object Notation. Now if you haven't heard of that before, it's okay. This is just a final example of adding a mixin to add a method or a set of behaviours to an existing class.
+
+So let's say we have a class called JSON serialisable. Serialisable. That's a big word.
+
+That is a big word. Got to be careful. And then I'm just going to add it to JSON method.
+
+And what is that going to do? All it's going to do is import. You should typically not import things like this inside of a method. Again, just for example, I would pull this out to the top of the file, and I may do that in just a moment.
+
+So I'm going to import JSON, and then I'm going to print JSON.dumps self.dunderdict. Now, what is this self.double underscore dictionary? What it actually does is it grabs all of the attributes on the object and just returns them as a dictionary in Python. So this is a little extra for your money, if you will. Learn something new if you've never used that.
+
+Inside of a class, it will just give you all of the class attributes where you'll have a label called title and the appropriate value of title. So let's see book to JSON. Well, as it stands, I would like to be able to do that, but I can't do that.
+
+Because a book is readable and writable, it is not JSON serialisable. Wow, that rhymed, and I wasn't expecting that. You're a poet, and you didn't even know it.
+
+I know, it's crazy. So how do I do that? Well, I'm just going to mix in the JSON serialisable class. Notice I have three classes being inherited by book.
+
+Well, Justin, you said that was bad. Correct. But this is a common pattern for multiple inheritance.
+
+And when I say common, some people use it, some people do not. And we'll talk more about that juxtaposition there in just a moment. So let's take a look here.
+
+And if you'll notice, that last one to JSON gives me a dictionary. Actually, it's a formatted JSON string with title, with the actual title, the author, with the actual author, and then file path with the file path of the book. And, well, there we go.
+
+We've added behaviour by inheriting from multiple classes, and that's incredibly powerful. Now, something to remember, though. We need to be very, very careful.
+
+If readable had a to JSON method, well, we might get unknown behaviour. We might be overriding new methods that we didn't even know about. And if you're inheriting from classes that you didn't write, you're continuing on, then how do you know about that? You have to read documentation.
+
+You have to do your research. So that's important. In addition to, some people say this is an anti-pattern.
+
+So keep that in mind. Depending on what circles you're in, the mixin pattern is not necessarily always accepted as a valid construction. However, there are other people who say, actually, mixins are valid.
+
+And that's because, well, write is the only method on the writable class, and I'm not overriding that anywhere else in my code, but I'm allowing writable to be added to other classes for future use. So I'm pulling that apart so I don't have code duplication. And those are the things we need to be aware of, but it can cause problems.
+
+So you have to be careful. So it looks like we avoided that diamond of death, and we mixed properly with this example. But did we do too much mixing here? Is there something that we need to be aware of? Or is there another way? So it can be kind of scary.
+
+This mixin, if done improperly, you end up with that deadly diamond of death, unknown behaviour, and things can go horribly awry. So what is the alternative? And just in the sake of time, we'll do a refactoring. We'll use something called composition.
+
+Now, there may be a term, if you do a lot of reading about object-orientated programming, where compose objects. You'll hear that. More specifically, you'll hear you should favour composition over inheritance.
+
+Remember when I said from part one, if you haven't watched that, definitely go back and watch that, inheriting too much, and what I mean is level after level after level, like if a class has great-great-great-great-grandchildren, then you might be getting into a... It's hard to reason about. You might be getting into an issue where I don't know where this read method came from. It's hard for me to understand.
+
+So you should instead use it at a minimum, and people will say you should favour composition of objects over inheritance of classes. Now, notice that's favour. That's not you have to do it this way.
+
+And realistically, projects will have a little bit of composition, a little bit of inheritance, and it's ultimately up to you to make sense. You should design this however is most sensibly or sensible to you, rather. So how can I take this exact same example and instead use composition? Well, I think it's just easier to show us.
+
+So this writable class, I'm actually going to comment this out just for comparison here. Whoa, going to comment out all of that, all of that again. There we go.
+
+So I'm going to comment this out, and I'm going to comment this out, but I'm going to leave the line, because ultimately what we should get is the exact same behaviour. So we're going to keep all of this pieces here, and I'm going to delete book.text. So there's some more things there, and delete, all right? Move to trash, and it's gone. So we should get the exact same behaviour, and let's see if we can do that.
+
+So I'm going to start with the book class again. We have written the book class so many times, I'm just getting sad about it. So here's dunder init, self, and what does the book need? Well, it needs a title, an author, and a file path.
+
+Well, it looks the same thus far, and self.title equals title, self.filepath equals filepath, and self.author equals author. Well, it's the same, nothing's changed, and you're exactly right, but now here comes the difference. If I wanted to make this readable, I would instead make a reader class that has its own dunder init, and in order to read something, what do I need to know? I need to know where it is.
+
+So self.filepath equals filepath. Now, keep in mind, I'm using the same variable names here, there is no guarantee that these are the same value. I can actually instantiate a reader class and point it to a different location on my computer than the actual book.
+
+But we're going to use the fact that I have a file path here and a file path here to our advantage. And now I'm going to write the read method. And so with open, self.filepath, read as f, and print f.read. So again, not a robust read method, it's just going to print it out to the screen, that's maybe not always helpful to you.
+
+But this looks very similar to this mixin readable. def read with open, self.filepath, and the read mode as f, print f.read. Okay. But how are we going to use this? Well, instead of inheriting from reader, the book is going to have its own reader instance.
+
+I have created a reader object that is part of the book, and then I'm going to, anytime I need to read, I'm just going to hand that off to the reader, and it's going to have its own set of responsibilities. It will do all the reading for me, for the book in this case, and I don't have to worry about the book always having all of its methods in line. But what that does mean is, it looks like a little bit of code duplication here, but all I'm going to do is proxy that to the reader itself.
+
+Now notice, I've written def read, def read twice. Right? It's not quite as dry. It doesn't seem quite as dry, but even though I've named this the same, these two lines are the same, the body of the method is not the same.
+
+So they aren't exactly the same method, so there's no way around this. But notice I said, for the reader that is part of the book, I want you to read. Now, because of the way I've written this, I'm going to comment out to JSON just for a moment.
+
+I need a writer, and just along that same way, I'm going to mess up my read class first, and then write the writer. So I'm going to have a writer. It's going to have a dunder init.
+
+It's going to take a cell. It also needs a file path. Where am I going to write this to? So self.filePath equals filePath, and then def write, and I'm not following appropriate convention here.
+
+There we go. Self, and it needs data. And, well, okay.
+
+I'm going to with open, self.filePath, and write as f, f.write data. All right. Now, again, this looks exactly the same as the write method from before.
+
+Why would I want to do it this way? Well, this can be used as a standalone class if I need to do some kind of writing other than in the book, but also I don't have as tightly a coupled portion, right? If I change the writer class, as long as I keep up my end of the deal with the write method, which we will put in the book in just a moment, the book will still work. However, with the mix-in pattern, if I change the writable, anything, then I may get unexpected behaviour. Maybe I accidentally get overwriting.
+
+Maybe someone went back and added a method called flipPages in the writable, and that was also a method I put in my book class that I'm inheriting from, and now I have unexpected behaviour that may occur. Ooh, that's a problem. But here I get transparency, and how do I get that transparency? By saying self.writer equals writer, writer, and also giving it the filePath.
+
+And I'm going to write a write method on the book. Again, a little bit of duplication here, but not too horrible. And just write the data out, and all I've done is say, hey, writer, you're taking care of all of my write responsibilities.
+
+Reader, you're handling all of my reader responsibilities, and it looks good to go. Well, let's see if we get the exact same behaviour. We should get write, read, write, read.
+
+Let's see if it works. There's the previous one. We'll ignore the JSON thing, and we'll say Python 3, books.py, writer object is not callable, and wait.
+
+I think I see it. Where is it, Ma? Is that in lot? You have self.write equals writer. Ah.
+
+Shouldn't that be writer? Yep. Yay! Pair programming is important. That's good to know.
+
+See? I could have been here the rest of the day if it wasn't for that. I was just going to let you keep going to see if you caught it before I jumped in. Vaughn's like, I want to let you crash and burn before I swoop in to save the day.
+
+Well, I've got to have my moment. Yeah, exactly. Exactly.
+
+So thanks for that, Vaughn, because ultimately what we would have is a property named write and also a method named write, and that's bad. So boom, and I get the exact same output. Nothing's changed.
+
+It doesn't look like anything's changed, and if someone was reading the book class and I made this change, they would be none the wiser. But one of the really nice things is I can test the writer class independently of the book. I don't have to test the book to see if the writer works anymore.
+
+I can look at the writer class, and I can use it in other instances even by itself. Previously, I might have been able to do that, but there was no guarantee. Let's uncomment this writable.
+
+I made the assumption that self.filepath would be available. Well, there's nothing in the writable class that sets the filepath attribute. That's a problem.
+
+If it doesn't exist, then write fails, and write will always fail. However, now that I have it as a separate class, down here as writer, if I don't provide a filepath, it will stop at that point and say, hey, there's no filepath provided. You should go fix that.
+
+So it's a little clearer. In addition to my code is a little more transparent, I think, about where things are going, how it's being used. A little more code for transparency and being explicit, that's okay.
+
+We just don't want to be copying and pasting a great deal of code everywhere. Now, what about that JSON thing? Well, we got that last one. We can actually write an object that will do that.
+
+So JSON serializer. There we go. It was getting iffy.
+
+And actually, the JSON serializer, it doesn't need a filepath. It's just looking at the intrinsic object itself. It's looking at whatever it is and needs a, let's say, two JSON method.
+
+And what is it going to do? Well, it is going to take an object and print out JSON dumps of the object. There we go. We should be good.
+
+I was getting ahead of myself there a little bit. So if I wanted to add a two JSON method on the book, well, I need to say self.serializer. Serializer equals JSON serializer. And then say two JSON self.
+
+And then I'm going to say self.serializer dot two JSON of self double underscore. So I'm just passing those properties in an object, particularly a dictionary. I'm using a dictionary here because I know this is going to play well with JSON.
+
+However, there is one problem. I don't have the JSON module because I commented it out up here. So I'm going to come to the top and import it appropriately.
+
+If I need it in this file, I should import it at the top instead of within the method. That's just common convention. And I do need a space here.
+
+And let's see if two JSON works as it did before. Uh-oh. Two JSON missing one required positional argument.
+
+Object. So let's go do a little bit of debugging here. Serializer.
+
+Oh, you actually have to construct the object. Don't forget the parentheses there because otherwise things won't work. So here we go.
+
+Object of type reader is not JSON serialisable. Uh-oh. What happened? We ran into a problem.
+
+And what problem is that? See this reader and writer and JSON serializer? It's actually going to try to send all of that information over as well. So we can't quite do that. But what could we do instead? Let's just say we send over, just to be explicit, a dictionary of title equals self.title. File path equals self.filepath. And author equals self.author. And that's a long line, so let me bring that back here.
+
+And I'm doing all of this in line. You could definitely pull this out into the data. So I'm sending over a dictionary with just those three elements because I know it is not JSON serialisable for reader, writer, and JSON serializer.
+
+So notice the two JSON. I was able to make that change without actually affecting the two JSON that's happening in the JSON serializer. So I have that decoupling, which is nice.
+
+It helps me keep maintainable code. And also, if I have to make this change, people are none the wiser. It still works.
+
+That's that abstraction, that encapsulation of behaviour. I know two JSON is a method, and it works. That's all I need to know.
+
+Well, I'm assuming it works. Let's see if it actually does work. Cross your fingers, Vaughn.
+
+I'm waiting. And it is in fact behaving exactly the same now. But instead of inheriting, I have used objects inside of the book object to proxy out those behaviours.
+
+The book has now become like a supervisor that is delegating responsibilities instead of taking on all the responsibilities for itself. And that's an important note to make. So composition is an alternative to inheritance.
+
+And in real projects, you'll have a little bit of inheritance, a little bit of composition. And sometimes inheritance for simple things fulfils all your needs. You don't really need composition.
+
+Or maybe you find out that you're using inheritance too much. You can go back and change it to be a composition of different objects, just like we did here. So don't worry if you're like, oh no, I've done something bad.
+
+It's always fixable. But I think that kind of sums it up for our extending and alternative to extending, Vaughn. But I do know that we're going to be using this coming up.
+
+(This file is longer than 30 minutes. Go Unlimited at https://turboscribe.ai/ to transcribe files up to 10 hours long.)
