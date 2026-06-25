@@ -113,7 +113,7 @@
 
 
 import random 
-from actors import Player ,Enemy
+from actors import Player ,Enemy, Ogre, Imp
 
 class Game:
     def __init__(self, player, enemies):
@@ -169,8 +169,8 @@ class Game:
         
 if __name__ == "__main__":
     enemies = [
-        Enemy('Ogre', 1),
-        Enemy('Imp', 2),
+        Ogre('bob', 1, 3),
+        Imp('Alice', 1)
     ]
     player = Player('Hercules', 1)
     Game(player, enemies).main()
