@@ -174,4 +174,3 @@ if __name__ == "__main__":
     ]
     player = Player('Hercules', 1)
     Game(player, enemies).main()
-    Game(player, enemies).main()
