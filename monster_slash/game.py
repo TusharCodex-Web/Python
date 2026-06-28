@@ -112,7 +112,7 @@
 
 
 
-import random 
+import random
 from actors import Player ,Enemy, Ogre, Imp
 
 class Game:
@@ -148,17 +148,42 @@ class Game:
             cmd = input('you see a {}. [r]un, [a]ttack, [p]ass?'.format(next_enemy.kind))
             if cmd == 'r':
                 print('{} runs away!'.format(self.player.name))
+                print('{} runs away!'.format(self.player.name))
+                self.player.heal()
+                print(self.player.hp)
+
             elif cmd == 'a':
-                print('{} attack the {}'.format(self.player.name, next_enemy.kind))
-                if self.player.attacks(next_enemy):
-                    self.enemies.remove(next_enemy)
-                else:
-                    print('{} hides to the plan the next move'.format(self.player.name))
+                self.player.attacks(next_enemy)
+                if not next_enemy.is_alive():
+                    self.enemies.remove(self.player)
+                    next_enemy = None
+                if next_enemy:
+                    next_enemy.attacks(self.player)
+
+
+                
+                # print('{} attack the {}'.format(self.player.name, next_enemy.kind))
+                # if self.player.attacks(next_enemy):
+                #     self.enemies.remove(next_enemy)
+                # else:
+                #     print('{} hides to the plan the next move'.format(self.player.name))
+
+
             elif cmd == 'p':
                 print('you are still thinking about your next move...')
+                if random.randint(1,11)<5:
+                    next_enemy.attacks(self.player)
             else:
                 print('Please choose a valid option')
 
+            if not self.player.is_alive():
+                print('Oh no! You lose')
+                break
+
+            self.print_linebreak()
+            self.player.stats()
+            for e in self.enemies:
+                e.stats()
             self.print_linebreak()
 
 
