@@ -15,7 +15,11 @@ class Actor:
         return self.hp > 0
 
     def get_attack_power(self):
-        return randint(1,100) * self.level
+        return randint(1,10) * self.level
+    
+    def stats(self):
+        print('{} has {} hp.'.format(self.name, self.hp))
+        
     
     def attacks(self, other):
         raise NotImplementedError()
@@ -62,14 +66,14 @@ class Ogre(Enemy):
         self.size = size
 
     def get_attack_power(self):
-        return randint(1,50) * (self.size * self.level)
+        return randint(1,5) * (self.size * self.level)
 
 class Imp(Enemy):
     def __init__(self, name, level):
         super().__init__(name, level, 'Imp')
 
     def get_attack_power(self):
-        return super().get_attacks_power() / 4
+        return super().get_attack_power() / 4
     
     
 if __name__ == '__main__':
